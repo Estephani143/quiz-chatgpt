@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Quiz</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    #squiz {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: 1fr 1fr 2fr;
+        column-gap: 20px;
+        margin: 10px;
+        justify-content: center;
+        text-align: center;
+    }
+    h1 {
+        color:hotpink;
+</style>
+</head>
+<body>
+ <main id="squiz">
+    <h1>Simple Quiz</h1>
+    <div id="quiz-container">
+        <p id="question"></p>
+        <div id="options"></div>
+        <button id="submit-btn">Submit</button>
+    </div>
+    <div id="result"></div>
+ </main>
+    <script>
+        // Array de perguntas e respostas
+        const questions = [
+            {
+                question: "Qual é a capital do Brasil?",
+                options: ["Rio de Janeiro", "Brasília", "São Paulo", "Salvador"],
+                answer: "Brasília"
+            },
+            {
+                question: "Quem escreveu 'Dom Quixote'?",
+                options: ["Miguel de Cervantes", "William Shakespeare", "Friedrich Nietzsche", "Jorge Luis Borges"],
+                answer: "Miguel de Cervantes"
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz-container');
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const submitButton = document.getElementById('submit-btn');
+        const resultElement = document.getElementById('result');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function showQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            questionElement.textContent = currentQuestion.question;
+            optionsElement.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('button');
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => checkAnswer(option));
+                optionsElement.appendChild(optionElement);
+            });
+        }
+
+        function checkAnswer(selectedOption) {
+            const currentQuestion = questions[currentQuestionIndex];
+
+            if (selectedOption === currentQuestion.answer) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            quizContainer.style.display = 'none';
+            resultElement.textContent = `Você acertou ${score} de ${questions.length} perguntas.`;
+        }
+
+        showQuestion();
+    </script>
+</body>
+</html>
